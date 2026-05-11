@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  template:
+    name: Template build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: force-app/main/default/uiBundles/BaseAstroApp
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: force-app/main/default/uiBundles/BaseAstroApp/package-lock.json
+      - run: npm ci
+      - run: npm run build
+
+  website-landing:
+    name: Landing build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: website/landing
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - run: npm run build
+
+  website-docs:
+    name: Docs build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: website/docs
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - run: npm run build

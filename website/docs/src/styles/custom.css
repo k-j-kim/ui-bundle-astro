@@ -1,0 +1,139 @@
+/* Force dark theme. Brand the Starlight palette to match the landing page. */
+:root,
+:root[data-theme='dark'] {
+  --sl-color-accent-low: #2a1505;
+  --sl-color-accent: #ff5d01;
+  --sl-color-accent-high: #ffb37a;
+
+  --sl-color-white: #f5f6f8;
+  --sl-color-gray-1: #e6e8ec;
+  --sl-color-gray-2: #c7cbd3;
+  --sl-color-gray-3: #9aa0aa;
+  --sl-color-gray-4: #6b7280;
+  --sl-color-gray-5: #2a2e36;
+  --sl-color-gray-6: #181a20;
+  --sl-color-black: #07080b;
+
+  --sl-color-bg: #07080b;
+  --sl-color-bg-nav: rgba(7, 8, 11, 0.85);
+  --sl-color-bg-sidebar: #0a0c12;
+  --sl-color-bg-inline-code: #161821;
+  --sl-color-bg-accent: #ff5d01;
+
+  --sl-color-text: #e6e8ec;
+  --sl-color-text-accent: #ffb37a;
+  --sl-color-text-invert: #07080b;
+
+  --sl-color-hairline-light: rgba(255, 255, 255, 0.08);
+  --sl-color-hairline: rgba(255, 255, 255, 0.06);
+  --sl-color-hairline-shade: rgba(255, 255, 255, 0.04);
+
+  --sl-font: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --sl-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  color-scheme: dark;
+}
+
+/* Hide the light theme toggle option — we're a dark-only site. */
+starlight-theme-select { display: none !important; }
+
+/* Force dark mode regardless of user preference / earlier toggle. */
+:root[data-theme='light'] {
+  color-scheme: dark;
+}
+
+/* Body baseline */
+html, body {
+  background: var(--sl-color-bg);
+  color: var(--sl-color-text);
+}
+
+::selection {
+  background: color-mix(in srgb, #ff5d01 35%, transparent);
+  color: white;
+}
+
+/* Aurora glow on the homepage hero (Starlight splash template). */
+body[data-has-hero] .hero {
+  position: relative;
+  overflow: visible;
+}
+body[data-has-hero] .hero::before {
+  content: '';
+  position: absolute;
+  inset: -10% -20% auto -20%;
+  height: 540px;
+  z-index: -1;
+  pointer-events: none;
+  filter: blur(80px);
+  opacity: 0.5;
+  background:
+    radial-gradient(50% 50% at 30% 30%, rgba(255, 93, 1, 0.35) 0%, transparent 60%),
+    radial-gradient(50% 50% at 70% 20%, rgba(99, 102, 241, 0.25) 0%, transparent 60%);
+}
+
+/* Sidebar */
+.sidebar-pane {
+  border-right: 1px solid var(--sl-color-hairline-light);
+  background: var(--sl-color-bg-sidebar);
+}
+
+/* Code blocks – soften */
+.expressive-code, pre {
+  border-radius: 12px !important;
+}
+
+/* Cards in CardGrid */
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01)) !important;
+  border: 1px solid var(--sl-color-hairline-light) !important;
+  border-radius: 14px !important;
+  transition: border-color 200ms ease, transform 200ms ease;
+}
+.card:hover {
+  border-color: rgba(255, 255, 255, 0.16) !important;
+  transform: translateY(-2px);
+}
+
+/* Hero buttons – use brand orange for primary */
+.action.primary {
+  background: linear-gradient(180deg, #ff7a2e, #ff5d01) !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.2) inset, 0 8px 24px -8px rgba(255, 93, 1, 0.5);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+.action.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.25) inset, 0 12px 28px -8px rgba(255, 93, 1, 0.65);
+}
+
+/* Headings polish */
+h1 { letter-spacing: -0.02em; }
+h2, h3 { letter-spacing: -0.01em; }
+
+/* Links */
+.sl-markdown-content a:not(:where(.not-content *)) {
+  color: var(--sl-color-text-accent);
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 179, 122, 0.35);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 150ms ease;
+}
+.sl-markdown-content a:not(:where(.not-content *)):hover {
+  text-decoration-color: rgba(255, 179, 122, 0.9);
+}
+
+/* Inline code */
+.sl-markdown-content :not(pre) > code {
+  background: var(--sl-color-bg-inline-code);
+  border: 1px solid var(--sl-color-hairline-light);
+  color: #ffb37a;
+  font-size: 0.9em;
+}
+
+/* Search */
+[data-theme] dialog[aria-label] {
+  background: rgba(7, 8, 11, 0.95);
+  backdrop-filter: blur(8px);
+}

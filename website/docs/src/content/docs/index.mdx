@@ -1,0 +1,46 @@
+---
+title: Puebla
+description: Astro template for Salesforce UI Bundles. Zero-JS by default. React only where you need it.
+template: splash
+hero:
+  tagline: An Astro template for Salesforce UI Bundles. Zero-JS by default. React only where you need it.
+  image:
+    file: ../../assets/hero.svg
+  actions:
+    - text: Get started
+      link: /docs/getting-started/
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/puebla/puebla
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+## Why Puebla?
+
+<CardGrid stagger>
+  <Card title="Zero-JS by default" icon="rocket">
+    Pages render to static HTML. React only hydrates the islands that need it.
+  </Card>
+  <Card title="File-based routing" icon="seti:html">
+    `src/pages/*.astro` becomes `dist/<route>.html`. No `react-router`.
+  </Card>
+  <Card title="Salesforce-aware" icon="cloud-download">
+    `@salesforce/vite-plugin-ui-bundle` rewrites asset URLs at runtime.
+  </Card>
+  <Card title="Tailwind v4" icon="puzzle">
+    Modern styling with the latest Tailwind, plus design tokens.
+  </Card>
+</CardGrid>
+
+## Where to next?
+
+<CardGrid>
+  <LinkCard title="Getting started" href="/docs/getting-started/" description="Scaffold a new project in under a minute." />
+  <LinkCard title="Project structure" href="/docs/project-structure/" description="Understand what each file does." />
+  <LinkCard title="React islands" href="/docs/guides/islands/" description="Hydrate only what needs to be interactive." />
+  <LinkCard title="Deploying" href="/docs/guides/deploying/" description="Ship your bundle to a Salesforce org." />
+</CardGrid>

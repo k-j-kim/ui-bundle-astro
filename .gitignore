@@ -6,3 +6,10 @@ dist
 .env
 .env.*
 !.env.example
+
+# Iteration screenshots from the website build
+/landing-iter*.png
+/landing-final-*.png
+/docs-iter*.png
+/docs-final-*.png
+/.playwright-mcp/

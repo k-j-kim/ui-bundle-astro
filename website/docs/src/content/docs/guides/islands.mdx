@@ -1,0 +1,69 @@
+---
+title: React islands
+description: Hydrate only the components that need to be interactive.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Astro renders pages to static HTML by default. To opt a component into
+client-side hydration, import it as an island and use a `client:*`
+directive.
+
+## When to use an island
+
+- The component reads or mutates data via the Salesforce SDK
+- The component manages local state (forms, dropdowns, charts, etc.)
+- The component listens to user events
+
+If a component is purely presentational, write it as a `.astro`
+component instead — it ships no JS at all.
+
+## Hydration directives
+
+| Directive          | When it hydrates                                      |
+| ------------------ | ----------------------------------------------------- |
+| `client:load`      | As soon as the page loads                             |
+| `client:idle`      | When the browser is idle                              |
+| `client:visible`   | When the component scrolls into view                  |
+| `client:media={…}` | When a media query matches                            |
+| `client:only="react"` | Skip SSR; only render on the client                |
+
+## Example: a list backed by the SDK
+
+```astro
+---
+// src/pages/accounts.astro
+import AppLayout from '@layouts/AppLayout.astro';
+import RecordList from '@components/RecordList';
+---
+<AppLayout title="Accounts">
+  <RecordList sobject="Account" client:load />
+</AppLayout>
+```
+
+```tsx
+// src/components/RecordList.tsx
+import { useEffect, useState } from 'react';
+import { sdk } from '@lib/sdk';
+
+export default function RecordList({ sobject }: { sobject: string }) {
+  const [records, setRecords] = useState<unknown[]>([]);
+  useEffect(() => {
+    sdk.query(`SELECT Id, Name FROM ${sobject} LIMIT 50`).then(setRecords);
+  }, [sobject]);
+  return <ul>{records.map(...)}</ul>;
+}
+```
+
+<Aside type="tip">
+The bundler ships JS only for components that have a `client:*`
+directive somewhere in your project. Other components are pure HTML.
+</Aside>
+
+## Avoiding hydration thrash
+
+- Prefer `client:idle` or `client:visible` for below-the-fold content.
+- Don't pass large props from `.astro` to React — they get serialized
+  into the HTML. Fetch data inside the island instead.
+- Co-locate state in one island where possible — siblings can't share
+  React context across islands without a top-level provider.

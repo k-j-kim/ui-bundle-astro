@@ -1,0 +1,276 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CodeWindow from '../components/CodeWindow.astro';
+import FeatureCard from '../components/FeatureCard.astro';
+
+const installCode = `<span class="tok-prompt">$</span> sf template generate ui-bundle <span class="tok-string">--name MyApp</span>
+<span class="tok-prompt">$</span> cd MyApp && npm install
+<span class="tok-prompt">$</span> npm run dev
+<span class="tok-comment">› ready</span>  http://localhost:4321`;
+
+const componentCode = `<span class="tok-comment">// src/pages/accounts.astro</span>
+<span class="tok-keyword">---</span>
+<span class="tok-keyword">import</span> AppLayout <span class="tok-keyword">from</span> <span class="tok-string">'@layouts/AppLayout.astro'</span>;
+<span class="tok-keyword">import</span> RecordList <span class="tok-keyword">from</span> <span class="tok-string">'@components/RecordList'</span>;
+<span class="tok-keyword">---</span>
+<span class="tok-keyword">&lt;</span><span class="tok-fn">AppLayout</span> title=<span class="tok-string">"Accounts"</span><span class="tok-keyword">&gt;</span>
+  <span class="tok-keyword">&lt;</span><span class="tok-fn">RecordList</span> sobject=<span class="tok-string">"Account"</span> client:load <span class="tok-keyword">/&gt;</span>
+<span class="tok-keyword">&lt;/</span><span class="tok-fn">AppLayout</span><span class="tok-keyword">&gt;</span>`;
+
+const features = [
+  {
+    title: 'Zero-JS by default',
+    icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>',
+    body: 'Pages render to static HTML. React only hydrates the islands that need it via <code class="text-[#ff8a4f] font-mono text-xs">client:load</code>.',
+  },
+  {
+    title: 'File-based routing',
+    icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18M3 12h18M3 17h12"/></svg>',
+    body: '<code class="text-[#ff8a4f] font-mono text-xs">src/pages/*.astro</code> becomes <code class="text-[#ff8a4f] font-mono text-xs">dist/&lt;route&gt;.html</code>. No <code class="text-[#ff8a4f] font-mono text-xs">react-router</code>, no client bundle for navigation.',
+  },
+  {
+    title: 'Salesforce-aware',
+    icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+    body: 'Bundles asset URLs through <code class="text-[#ff8a4f] font-mono text-xs">@salesforce/vite-plugin-ui-bundle</code> so they resolve at runtime under any mount path.',
+  },
+  {
+    title: 'Tailwind v4',
+    icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+    body: 'Modern styling out of the box with the latest Tailwind, plus design tokens you can theme to match your org.',
+  },
+  {
+    title: 'TypeScript strict',
+    icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>',
+    body: 'Strict TS config, path aliases (<code class="text-[#ff8a4f] font-mono text-xs">@components</code>, <code class="text-[#ff8a4f] font-mono text-xs">@lib</code>, …) and types for the SDK.',
+  },
+  {
+    title: 'SDK-data ready',
+    icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"/></svg>',
+    body: 'Pre-wired <code class="text-[#ff8a4f] font-mono text-xs">createDataSDK()</code> instance and example list/detail components.',
+  },
+];
+
+const steps = [
+  {
+    n: '01',
+    title: 'Astro renders pages to static HTML',
+    body: 'Each route in <code>src/pages/</code> becomes a separate <code>.html</code> file at build time. No SPA shell, no client-side router.',
+  },
+  {
+    n: '02',
+    title: 'React islands hydrate on demand',
+    body: 'Interactive components are imported as islands. They hydrate independently — the rest of the page stays static.',
+  },
+  {
+    n: '03',
+    title: 'Vite plugin rewrites asset URLs',
+    body: '<code>@salesforce/vite-plugin-ui-bundle</code> rewrites <code>/assets/...</code> to the runtime mount path Salesforce assigns.',
+  },
+  {
+    n: '04',
+    title: 'Deploy as a UI Bundle',
+    body: 'Build emits <code>dist/</code>. Deploy with <code>sf project deploy start</code> like any other metadata.',
+  },
+];
+---
+
+<Layout>
+  <Header />
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="relative overflow-hidden">
+      <div class="aurora"></div>
+      <div class="grid-overlay"></div>
+      <div class="container-x pt-16 pb-24 md:pt-20 md:pb-28">
+        <div class="flex flex-col items-center text-center max-w-3xl mx-auto">
+          <span class="badge mb-6">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            v0.1 — Open source under MIT
+          </span>
+          <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] gradient-text">
+            The Astro template for Salesforce UI Bundles
+          </h1>
+          <p class="mt-6 text-lg md:text-xl text-[var(--color-fg-muted)] max-w-2xl leading-relaxed">
+            A drop-in alternative to <code class="text-[var(--color-brand)] font-mono text-base">reactbasic</code>.
+            Zero-JS by default, file-based routing, React only where you need it.
+          </p>
+
+          <div class="mt-10 flex flex-wrap items-center justify-center gap-3">
+            <a href="#quickstart" class="btn btn-primary">
+              Get started
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
+            <a href="/docs/" class="btn btn-ghost">Read the docs</a>
+          </div>
+
+          <div class="mt-14 w-full max-w-2xl">
+            <CodeWindow title="zsh — install puebla" code={installCode} />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="container-x py-24">
+      <div class="max-w-2xl mb-12">
+        <span class="badge mb-4">Features</span>
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-white">Everything you need, nothing you don't</h2>
+        <p class="mt-3 text-[var(--color-fg-muted)] text-lg">
+          Built for Salesforce UI Bundles, but it feels like a modern web app.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {features.map((f) => (
+          <FeatureCard title={f.title} icon={f.icon}>
+            <span set:html={f.body} />
+          </FeatureCard>
+        ))}
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how" class="container-x py-24">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <div>
+          <span class="badge mb-4">How it works</span>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-white">Static-first, hydrated where it counts</h2>
+          <p class="mt-3 text-[var(--color-fg-muted)] text-lg">
+            Pages ship as plain HTML. React only loads when an island calls for it.
+          </p>
+          <ol class="mt-10 space-y-6">
+            {steps.map((s) => (
+              <li class="flex gap-5">
+                <div class="shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-[#ff5d01]/20 to-[#6366f1]/10 border border-white/[0.08] grid place-items-center text-[var(--color-brand)] font-mono text-sm font-semibold">
+                  {s.n}
+                </div>
+                <div>
+                  <h3 class="font-semibold text-white">{s.title}</h3>
+                  <p class="mt-1 text-[var(--color-fg-muted)] text-[0.95rem] leading-relaxed" set:html={s.body}></p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div class="lg:sticky lg:top-24">
+          <CodeWindow title="src/pages/accounts.astro" code={componentCode} />
+          <div class="mt-4 text-xs text-[var(--color-fg-dim)] flex items-center gap-2 justify-center">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            Bundles only the JS your islands need.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick start -->
+    <section id="quickstart" class="relative">
+      <div class="container-x py-24">
+        <div class="glass rounded-2xl p-8 md:p-12 relative overflow-hidden">
+          <div class="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-[#ff5d01]/10 blur-3xl pointer-events-none"></div>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative">
+            <div>
+              <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight">Ship in minutes</h2>
+              <p class="mt-3 text-[var(--color-fg-muted)] text-lg">
+                One command to scaffold, one to dev, one to deploy.
+              </p>
+              <ul class="mt-8 space-y-3 text-[var(--color-fg-muted)]">
+                <li class="flex gap-3"><span class="text-[var(--color-brand)] mt-0.5">→</span> Node 22+ and the Salesforce CLI</li>
+                <li class="flex gap-3"><span class="text-[var(--color-brand)] mt-0.5">→</span> Works with any SFDX project</li>
+                <li class="flex gap-3"><span class="text-[var(--color-brand)] mt-0.5">→</span> Hot module reload in <code class="text-white">npm run dev</code></li>
+              </ul>
+              <div class="mt-10 flex flex-wrap gap-3">
+                <a href="/docs/getting-started/" class="btn btn-primary">Read the guide</a>
+                <a href="https://github.com/puebla/puebla" class="btn btn-ghost">View on GitHub</a>
+              </div>
+            </div>
+            <div>
+              <CodeWindow title="zsh" code={`<span class="tok-comment"># 1. Scaffold from the template</span>
+<span class="tok-prompt">$</span> sf template generate ui-bundle --name MyApp
+
+<span class="tok-comment"># 2. Install and run</span>
+<span class="tok-prompt">$</span> cd force-app/main/default/uiBundles/MyApp
+<span class="tok-prompt">$</span> npm install
+<span class="tok-prompt">$</span> npm run dev
+
+<span class="tok-comment"># 3. Build and deploy</span>
+<span class="tok-prompt">$</span> npm run build
+<span class="tok-prompt">$</span> sf project deploy start \\
+    --source-dir force-app/main/default/uiBundles \\
+    --target-org my-org`} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison -->
+    <section class="container-x py-24">
+      <div class="max-w-2xl mb-10">
+        <span class="badge mb-4">Comparison</span>
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-white">Puebla vs the React template</h2>
+        <p class="mt-3 text-[var(--color-fg-muted)] text-lg">Same UI Bundle runtime. Different defaults.</p>
+      </div>
+      <div class="overflow-x-auto rounded-2xl border border-white/[0.08]">
+        <table class="w-full text-sm">
+          <thead class="bg-white/[0.02] text-[var(--color-fg-muted)]">
+            <tr>
+              <th class="text-left font-medium py-3 px-5">&nbsp;</th>
+              <th class="text-left font-medium py-3 px-5">Puebla (Astro)</th>
+              <th class="text-left font-medium py-3 px-5">reactbasic (React + Vite)</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/[0.06]">
+            <tr>
+              <td class="py-3 px-5 font-medium text-white">Routing</td>
+              <td class="py-3 px-5 text-[var(--color-fg-muted)]">File-based (<code class="text-[var(--color-brand)]">src/pages</code>)</td>
+              <td class="py-3 px-5 text-[var(--color-fg-muted)]">Client-side (<code>react-router</code>)</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-5 font-medium text-white">First paint</td>
+              <td class="py-3 px-5 text-[var(--color-fg-muted)]">Static HTML</td>
+              <td class="py-3 px-5 text-[var(--color-fg-muted)]">JS bundle then render</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-5 font-medium text-white">JS payload</td>
+              <td class="py-3 px-5 text-[var(--color-fg-muted)]">Per-island (zero on static pages)</td>
+              <td class="py-3 px-5 text-[var(--color-fg-muted)]">Whole app bundle</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-5 font-medium text-white">Interactivity</td>
+              <td class="py-3 px-5 text-[var(--color-fg-muted)]">React islands (<code class="text-[var(--color-brand)]">client:load</code>)</td>
+              <td class="py-3 px-5 text-[var(--color-fg-muted)]">Full SPA</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-5 font-medium text-white">Styling</td>
+              <td class="py-3 px-5 text-[var(--color-fg-muted)]">Tailwind v4</td>
+              <td class="py-3 px-5 text-[var(--color-fg-muted)]">Bring-your-own</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-5 font-medium text-white">SDK</td>
+              <td class="py-3 px-5 text-[var(--color-fg-muted)]">Pre-wired <code class="text-[var(--color-brand)]">@salesforce/sdk-data</code></td>
+              <td class="py-3 px-5 text-[var(--color-fg-muted)]">Pre-wired <code>@salesforce/sdk-data</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="container-x pt-8 pb-24">
+      <div class="text-center max-w-2xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight gradient-text">Build with Astro on Salesforce</h2>
+        <p class="mt-4 text-[var(--color-fg-muted)] text-lg">
+          Star the repo, open an issue, or contribute a PR.
+        </p>
+        <div class="mt-8 flex justify-center gap-3 flex-wrap">
+          <a href="https://github.com/puebla/puebla" class="btn btn-primary">Star on GitHub</a>
+          <a href="/docs/" class="btn btn-ghost">Documentation</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

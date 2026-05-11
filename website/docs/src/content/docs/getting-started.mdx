@@ -1,0 +1,75 @@
+---
+title: Getting started
+description: Scaffold, install, and run your first Puebla bundle.
+---
+
+import { Steps, Tabs, TabItem, Aside } from '@astrojs/starlight/components';
+
+## Prerequisites
+
+- **Node 22+**
+- **Salesforce CLI** (`sf`) authenticated to a target org
+- An SFDX project (`sfdx-project.json`)
+
+## Scaffold a project
+
+<Steps>
+
+1. **Create the bundle from the template.**
+
+   ```sh
+   sf template generate ui-bundle --name MyApp --template puebla
+   ```
+
+   This creates a new bundle at
+   `force-app/main/default/uiBundles/MyApp/`.
+
+2. **Install dependencies.**
+
+   ```sh
+   cd force-app/main/default/uiBundles/MyApp
+   npm install
+   ```
+
+3. **Start the dev server.**
+
+   ```sh
+   npm run dev
+   ```
+
+   Open `http://localhost:4321` — Astro reloads on change.
+
+</Steps>
+
+## Build and deploy
+
+<Tabs>
+  <TabItem label="npm">
+    ```sh
+    npm run build
+    ```
+  </TabItem>
+  <TabItem label="pnpm">
+    ```sh
+    pnpm build
+    ```
+  </TabItem>
+</Tabs>
+
+The build emits `dist/`. From your SFDX project root:
+
+```sh
+sf project deploy start \
+  --source-dir force-app/main/default/uiBundles \
+  --target-org my-org
+```
+
+<Aside type="tip">
+The `scripts/postbuild.mjs` step verifies that `dist/index.html` exists so
+SPA-style deep links can fall back to it.
+</Aside>
+
+## Next
+
+- [Project structure](/docs/project-structure/) — see what each file does.
+- [React islands](/docs/guides/islands/) — add interactivity.

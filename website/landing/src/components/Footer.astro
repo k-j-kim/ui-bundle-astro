@@ -1,0 +1,23 @@
+---
+import Logo from './Logo.astro';
+const year = new Date().getFullYear();
+---
+<footer class="mt-32 border-t border-white/[0.06]">
+  <div class="container-x py-12 flex flex-col md:flex-row gap-8 md:items-center md:justify-between text-sm">
+    <div class="flex items-start gap-4">
+      <Logo />
+      <p class="text-[var(--color-fg-muted)] max-w-md ml-2">
+        Astro template for Salesforce UI Bundles. Open source under MIT.
+      </p>
+    </div>
+    <div class="flex flex-wrap gap-x-8 gap-y-3 text-[var(--color-fg-muted)]">
+      <a href="/docs/" class="hover:text-white transition-colors">Documentation</a>
+      <a href="https://github.com/puebla/puebla" class="hover:text-white transition-colors">GitHub</a>
+      <a href="https://github.com/puebla/puebla/issues" class="hover:text-white transition-colors">Issues</a>
+      <a href="https://github.com/puebla/puebla/blob/master/LICENSE" class="hover:text-white transition-colors">License</a>
+    </div>
+  </div>
+  <div class="container-x pb-10 text-xs text-[var(--color-fg-dim)]">
+    © {year} Puebla contributors. Built with Astro.
+  </div>
+</footer>
