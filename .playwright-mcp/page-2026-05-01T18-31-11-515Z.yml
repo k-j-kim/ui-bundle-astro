@@ -1,0 +1,119 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "A Astro · UI Bundle" [ref=e4] [cursor=pointer]:
+        - /url: ./
+        - generic [ref=e5]: A
+        - generic [ref=e6]: Astro · UI Bundle
+      - navigation [ref=e7]:
+        - link "📊 Dashboard" [ref=e8] [cursor=pointer]:
+          - /url: ./
+          - generic [ref=e9]: 📊
+          - generic [ref=e10]: Dashboard
+        - link "🏢 Accounts" [ref=e11] [cursor=pointer]:
+          - /url: ./accounts
+          - generic [ref=e12]: 🏢
+          - generic [ref=e13]: Accounts
+        - link "👥 Contacts" [ref=e14] [cursor=pointer]:
+          - /url: ./contacts
+          - generic [ref=e15]: 👥
+          - generic [ref=e16]: Contacts
+        - link "💼 Opportunities" [ref=e17] [cursor=pointer]:
+          - /url: ./opportunities
+          - generic [ref=e18]: 💼
+          - generic [ref=e19]: Opportunities
+        - link "✨ About" [ref=e20] [cursor=pointer]:
+          - /url: ./about
+          - generic [ref=e21]: ✨
+          - generic [ref=e22]: About
+      - generic [ref=e24]: Connected
+  - main [ref=e26]:
+    - generic [ref=e27]:
+      - paragraph [ref=e28]: Overview
+      - heading "Welcome back" [level=1] [ref=e29]
+      - paragraph [ref=e30]: A lightweight Astro-powered UI Bundle running natively on the Salesforce platform. Static HTML by default, React islands where you need interactivity.
+    - generic [ref=e31]:
+      - generic [ref=e32]:
+        - generic [ref=e33]:
+          - generic [ref=e34]:
+            - paragraph [ref=e35]: Accounts
+            - paragraph [ref=e36]: 1,284
+          - generic [ref=e37]: 🏢
+        - paragraph [ref=e38]: ▲ +4.2% this week
+      - generic [ref=e39]:
+        - generic [ref=e40]:
+          - generic [ref=e41]:
+            - paragraph [ref=e42]: Contacts
+            - paragraph [ref=e43]: 8,501
+          - generic [ref=e44]: 👥
+        - paragraph [ref=e45]: ▲ +118 new
+      - generic [ref=e46]:
+        - generic [ref=e47]:
+          - generic [ref=e48]:
+            - paragraph [ref=e49]: Open pipeline
+            - paragraph [ref=e50]: $2.4M
+          - generic [ref=e51]: 💼
+        - paragraph [ref=e52]: ▼ −3.1% vs. last
+      - generic [ref=e53]:
+        - generic [ref=e54]:
+          - generic [ref=e55]:
+            - paragraph [ref=e56]: Win rate
+            - paragraph [ref=e57]: 31%
+          - generic [ref=e58]: 🎯
+        - paragraph [ref=e59]: • steady
+    - generic [ref=e60]:
+      - generic [ref=e61]:
+        - generic [ref=e63]:
+          - heading "Quick links" [level=2] [ref=e64]
+          - paragraph [ref=e65]: Jump to a route
+        - list [ref=e67]:
+          - listitem [ref=e68]:
+            - link "🏢 Accounts Top accounts by name →" [ref=e69] [cursor=pointer]:
+              - /url: ./accounts
+              - generic [ref=e70]: 🏢
+              - generic [ref=e71]:
+                - generic [ref=e72]: Accounts
+                - generic [ref=e73]: Top accounts by name
+              - generic [ref=e74]: →
+          - listitem [ref=e75]:
+            - link "👥 Contacts Recently created contacts →" [ref=e76] [cursor=pointer]:
+              - /url: ./contacts
+              - generic [ref=e77]: 👥
+              - generic [ref=e78]:
+                - generic [ref=e79]: Contacts
+                - generic [ref=e80]: Recently created contacts
+              - generic [ref=e81]: →
+          - listitem [ref=e82]:
+            - link "💼 Opportunities Open pipeline & stages →" [ref=e83] [cursor=pointer]:
+              - /url: ./opportunities
+              - generic [ref=e84]: 💼
+              - generic [ref=e85]:
+                - generic [ref=e86]: Opportunities
+                - generic [ref=e87]: Open pipeline & stages
+              - generic [ref=e88]: →
+          - listitem [ref=e89]:
+            - link "✨ About How this bundle is built →" [ref=e90] [cursor=pointer]:
+              - /url: ./about
+              - generic [ref=e91]: ✨
+              - generic [ref=e92]:
+                - generic [ref=e93]: About
+                - generic [ref=e94]: How this bundle is built
+              - generic [ref=e95]: →
+      - generic [ref=e96]:
+        - generic [ref=e98]:
+          - heading "Runtime" [level=2] [ref=e99]
+          - paragraph [ref=e100]: How this page was served
+        - generic [ref=e102]:
+          - generic [ref=e103]:
+            - term [ref=e104]: Framework
+            - definition [ref=e105]: Astro · static
+          - generic [ref=e106]:
+            - term [ref=e107]: Hydration
+            - definition [ref=e108]: Islands (React 19)
+          - generic [ref=e109]:
+            - term [ref=e110]: Data
+            - definition [ref=e111]: "@salesforce/sdk-data"
+          - generic [ref=e112]:
+            - term [ref=e113]: Styling
+            - definition [ref=e114]: Tailwind v4
+  - contentinfo [ref=e115]: Built with Astro · Served as a Salesforce UI Bundle

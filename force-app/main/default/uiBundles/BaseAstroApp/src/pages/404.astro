@@ -1,0 +1,18 @@
+---
+import AppLayout from '@layouts/AppLayout.astro';
+import { withBase } from '@lib/utils';
+---
+<AppLayout title="Not Found">
+  <div class="text-center py-20">
+    <p class="text-7xl mb-4">🧭</p>
+    <p class="text-sm font-semibold uppercase tracking-widest text-indigo-600 mb-2">404</p>
+    <h1 class="text-4xl font-semibold tracking-tight text-slate-900 mb-3">Lost the trail.</h1>
+    <p class="text-slate-600 max-w-md mx-auto mb-8">This page doesn't exist in the bundle. Head back to the dashboard.</p>
+    <a
+      href={withBase('/')}
+      class="inline-flex items-center gap-2 rounded-full bg-slate-900 text-white text-sm font-medium px-5 py-2.5 hover:bg-slate-800 transition"
+    >
+      ← Back to dashboard
+    </a>
+  </div>
+</AppLayout>

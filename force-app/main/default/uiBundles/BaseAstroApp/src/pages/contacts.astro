@@ -1,0 +1,25 @@
+---
+import AppLayout from '@layouts/AppLayout.astro';
+import Card from '@components/Card.astro';
+import RecordList from '@components/RecordList.tsx';
+---
+<AppLayout
+  title="Contacts · Astro UI Bundle"
+  eyebrow="People"
+  heading="Contacts"
+  subheading="Individuals linked to your accounts. Sorted by last name."
+>
+  <Card title="All contacts" subtitle="Ordered by last name">
+    <RecordList
+      client:load
+      sobject="Contact"
+      orderBy="LastName"
+      columns={[
+        { label: 'Name',    field: 'Name' },
+        { label: 'Title',   field: 'Title',   muted: true },
+        { label: 'Email',   field: 'Email',   muted: true },
+        { label: 'Phone',   field: 'Phone',   muted: true, align: 'right' },
+      ]}
+    />
+  </Card>
+</AppLayout>

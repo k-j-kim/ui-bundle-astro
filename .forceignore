@@ -1,0 +1,14 @@
+# Exclude everything non-deployable inside the UI Bundle directory.
+# The UIBundle type deploys only the files referenced by ui-bundle.json
+# (outputDir=dist) plus the *.uibundle-meta.xml. Belt-and-braces here so we
+# never accidentally stream node_modules/src/scripts through the deploy API.
+**/uiBundles/**/node_modules/**
+**/uiBundles/**/src/**
+**/uiBundles/**/scripts/**
+**/uiBundles/**/package.json
+**/uiBundles/**/package-lock.json
+**/uiBundles/**/tsconfig.json
+**/uiBundles/**/astro.config.mjs
+**/uiBundles/**/env.d.ts
+**/uiBundles/**/README.md
+**/uiBundles/**/.astro/**

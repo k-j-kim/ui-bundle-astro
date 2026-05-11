@@ -1,0 +1,48 @@
+---
+import { withBase } from '@lib/utils';
+
+interface NavItem { label: string; href: string; icon: string }
+
+const items: NavItem[] = [
+  { label: 'Dashboard',     href: '/',              icon: '📊' },
+  { label: 'Accounts',      href: '/accounts',      icon: '🏢' },
+  { label: 'Contacts',      href: '/contacts',      icon: '👥' },
+  { label: 'Opportunities', href: '/opportunities', icon: '💼' },
+  { label: 'About',         href: '/about',         icon: '✨' },
+];
+
+const current = Astro.url.pathname.replace(/\/+$/, '') || '/';
+---
+<header class="sticky top-0 z-40 backdrop-blur bg-white/70 border-b border-slate-200/70">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center h-16 gap-8">
+    <a href={withBase('/')} class="flex items-center gap-2 group">
+      <span class="inline-flex size-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-fuchsia-500 text-white font-bold shadow-sm shadow-indigo-500/30 group-hover:scale-105 transition">A</span>
+      <span class="text-base font-semibold tracking-tight text-slate-900">Astro <span class="text-slate-400 font-normal">· UI Bundle</span></span>
+    </a>
+    <nav class="flex items-center gap-1 text-sm">
+      {items.map(item => {
+        const active = current === item.href || (item.href !== '/' && current.startsWith(item.href));
+        return (
+          <a
+            href={withBase(item.href)}
+            class:list={[
+              'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full font-medium transition',
+              active
+                ? 'bg-slate-900 text-white shadow-sm'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100',
+            ]}
+          >
+            <span class="text-[13px]">{item.icon}</span>
+            <span>{item.label}</span>
+          </a>
+        );
+      })}
+    </nav>
+    <div class="ml-auto flex items-center gap-2">
+      <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 text-emerald-700 px-2.5 py-1 text-xs font-medium ring-1 ring-emerald-200">
+        <span class="size-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        Connected
+      </span>
+    </div>
+  </div>
+</header>

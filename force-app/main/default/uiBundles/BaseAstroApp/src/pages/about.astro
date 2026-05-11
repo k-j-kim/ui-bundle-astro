@@ -1,0 +1,56 @@
+---
+import AppLayout from '@layouts/AppLayout.astro';
+import Card from '@components/Card.astro';
+
+const stack = [
+  { name: 'Astro 5',         role: 'Static site generator + file-based routing' },
+  { name: 'React 19',        role: 'Interactive islands only' },
+  { name: 'Tailwind CSS v4', role: 'Design tokens + utility styling' },
+  { name: '@salesforce/sdk-data', role: 'GraphQL / Apex client with platform auth' },
+  { name: '@salesforce/vite-plugin-ui-bundle', role: 'Rewrites asset paths to the runtime mount' },
+];
+---
+<AppLayout
+  title="About · Astro UI Bundle"
+  eyebrow="Meta"
+  heading="About this bundle"
+  subheading="A drop-in alternative to the React template shipped by `sf template generate ui-bundle`."
+>
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <Card title="Stack" subtitle="What's running under the hood">
+      <ul class="divide-y divide-slate-100">
+        {stack.map(s => (
+          <li class="flex items-start justify-between gap-6 py-3 first:pt-0 last:pb-0">
+            <span class="font-medium text-slate-900">{s.name}</span>
+            <span class="text-sm text-slate-500 text-right max-w-[60%]">{s.role}</span>
+          </li>
+        ))}
+      </ul>
+    </Card>
+
+    <Card title="Why Astro" subtitle="Less JS, faster loads">
+      <ul class="space-y-3 text-sm text-slate-600">
+        <li class="flex gap-3"><span class="text-indigo-500">▸</span><span><strong class="text-slate-900">Zero-JS by default.</strong> Pages ship as static HTML; React hydrates only for widgets that need it.</span></li>
+        <li class="flex gap-3"><span class="text-indigo-500">▸</span><span><strong class="text-slate-900">File-based routing.</strong> Each <code>src/pages/*.astro</code> becomes a route — no react-router config.</span></li>
+        <li class="flex gap-3"><span class="text-indigo-500">▸</span><span><strong class="text-slate-900">Same deploy contract.</strong> <code>ui-bundle.json</code>, <code>*.uibundle-meta.xml</code>, and <code>dist/</code> match the React template byte-for-byte.</span></li>
+      </ul>
+    </Card>
+
+    <Card title="Commands" subtitle="From the bundle directory" class="lg:col-span-2">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm font-mono">
+        <div class="rounded-lg bg-slate-900 text-slate-100 px-4 py-3">
+          <p class="text-xs text-slate-400 mb-1 font-sans">Develop</p>
+          npm run dev
+        </div>
+        <div class="rounded-lg bg-slate-900 text-slate-100 px-4 py-3">
+          <p class="text-xs text-slate-400 mb-1 font-sans">Build</p>
+          npm run build
+        </div>
+        <div class="rounded-lg bg-slate-900 text-slate-100 px-4 py-3">
+          <p class="text-xs text-slate-400 mb-1 font-sans">Deploy</p>
+          sf project deploy start
+        </div>
+      </div>
+    </Card>
+  </div>
+</AppLayout>

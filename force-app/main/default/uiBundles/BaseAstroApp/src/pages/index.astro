@@ -1,0 +1,71 @@
+---
+import AppLayout from '@layouts/AppLayout.astro';
+import Card from '@components/Card.astro';
+import StatTile from '@components/StatTile.astro';
+import { withBase } from '@lib/utils';
+
+const quickLinks = [
+  { href: '/accounts',      label: 'Accounts',      desc: 'Top accounts by name',        icon: '🏢' },
+  { href: '/contacts',      label: 'Contacts',      desc: 'Recently created contacts',   icon: '👥' },
+  { href: '/opportunities', label: 'Opportunities', desc: 'Open pipeline & stages',      icon: '💼' },
+  { href: '/about',         label: 'About',         desc: 'How this bundle is built',    icon: '✨' },
+];
+---
+<AppLayout
+  title="Dashboard · Astro UI Bundle"
+  eyebrow="Overview"
+  heading="Welcome back"
+  subheading="A lightweight Astro-powered UI Bundle running natively on the Salesforce platform. Static HTML by default, React islands where you need interactivity."
+>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+    <StatTile label="Accounts"      value="1,284" delta="+4.2% this week"  tone="up"   icon="🏢" />
+    <StatTile label="Contacts"      value="8,501" delta="+118 new"         tone="up"   icon="👥" />
+    <StatTile label="Open pipeline" value="$2.4M" delta="−3.1% vs. last"   tone="down" icon="💼" />
+    <StatTile label="Win rate"      value="31%"   delta="steady"           tone="flat" icon="🎯" />
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <Card title="Quick links" subtitle="Jump to a route" class="lg:col-span-2">
+      <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {quickLinks.map(l => (
+          <li>
+            <a
+              href={withBase(l.href)}
+              class="group flex items-start gap-3 rounded-xl p-4 ring-1 ring-slate-200 hover:ring-indigo-300 hover:bg-indigo-50/40 transition"
+            >
+              <span class="inline-flex size-9 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500/10 to-fuchsia-500/10 ring-1 ring-indigo-100 text-lg">
+                {l.icon}
+              </span>
+              <span class="flex-1">
+                <span class="block text-sm font-semibold text-slate-900 group-hover:text-indigo-700">{l.label}</span>
+                <span class="block text-xs text-slate-500 mt-0.5">{l.desc}</span>
+              </span>
+              <span class="text-slate-300 group-hover:text-indigo-500 transition">→</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </Card>
+
+    <Card title="Runtime" subtitle="How this page was served">
+      <dl class="space-y-3 text-sm">
+        <div class="flex items-center justify-between">
+          <dt class="text-slate-500">Framework</dt>
+          <dd class="font-medium">Astro · static</dd>
+        </div>
+        <div class="flex items-center justify-between">
+          <dt class="text-slate-500">Hydration</dt>
+          <dd class="font-medium">Islands (React 19)</dd>
+        </div>
+        <div class="flex items-center justify-between">
+          <dt class="text-slate-500">Data</dt>
+          <dd class="font-medium">@salesforce/sdk-data</dd>
+        </div>
+        <div class="flex items-center justify-between">
+          <dt class="text-slate-500">Styling</dt>
+          <dd class="font-medium">Tailwind v4</dd>
+        </div>
+      </dl>
+    </Card>
+  </div>
+</AppLayout>

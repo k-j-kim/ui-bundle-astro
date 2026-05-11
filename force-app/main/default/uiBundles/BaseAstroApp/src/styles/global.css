@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-50:  #eef2ff;
+  --color-brand-100: #e0e7ff;
+  --color-brand-500: #6366f1;
+  --color-brand-600: #4f46e5;
+  --color-brand-700: #4338ca;
+  --color-brand-900: #312e81;
+}
+
+html, body { height: 100%; }
+body {
+  background:
+    radial-gradient(1200px 500px at 10% -10%, #eef2ff 0%, transparent 60%),
+    radial-gradient(900px 400px at 110% 10%, #fdf2f8 0%, transparent 60%),
+    #f8fafc;
+}

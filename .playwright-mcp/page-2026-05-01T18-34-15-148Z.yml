@@ -1,0 +1,44 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "A Astro · UI Bundle" [ref=e4] [cursor=pointer]:
+        - /url: ./
+        - generic [ref=e5]: A
+        - generic [ref=e6]: Astro · UI Bundle
+      - navigation [ref=e7]:
+        - link "📊 Dashboard" [ref=e8] [cursor=pointer]:
+          - /url: ./
+          - generic [ref=e9]: 📊
+          - generic [ref=e10]: Dashboard
+        - link "🏢 Accounts" [ref=e11] [cursor=pointer]:
+          - /url: ./accounts
+          - generic [ref=e12]: 🏢
+          - generic [ref=e13]: Accounts
+        - link "👥 Contacts" [ref=e14] [cursor=pointer]:
+          - /url: ./contacts
+          - generic [ref=e15]: 👥
+          - generic [ref=e16]: Contacts
+        - link "💼 Opportunities" [ref=e17] [cursor=pointer]:
+          - /url: ./opportunities
+          - generic [ref=e18]: 💼
+          - generic [ref=e19]: Opportunities
+        - link "✨ About" [ref=e20] [cursor=pointer]:
+          - /url: ./about
+          - generic [ref=e21]: ✨
+          - generic [ref=e22]: About
+      - generic [ref=e24]: Connected
+  - main [ref=e26]:
+    - generic [ref=e27]:
+      - paragraph [ref=e28]: Sales
+      - heading "Accounts" [level=1] [ref=e29]
+      - paragraph [ref=e30]: Organizations in your org. Data is queried live via the UI API GraphQL endpoint.
+    - generic [ref=e31]:
+      - generic [ref=e33]:
+        - heading "All accounts" [level=2] [ref=e34]
+        - paragraph [ref=e35]: Ordered by name
+      - generic [ref=e39]:
+        - generic [ref=e40]:
+          - generic [ref=e41]: 🔍
+          - textbox "Search account…" [ref=e42]
+        - generic [ref=e43]: Loading…
+  - contentinfo [ref=e63]: Built with Astro · Served as a Salesforce UI Bundle

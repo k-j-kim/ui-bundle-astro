@@ -1,0 +1,26 @@
+---
+import AppLayout from '@layouts/AppLayout.astro';
+import Card from '@components/Card.astro';
+import RecordList from '@components/RecordList.tsx';
+---
+<AppLayout
+  title="Opportunities · Astro UI Bundle"
+  eyebrow="Pipeline"
+  heading="Opportunities"
+  subheading="Your open and recently closed deals, ordered by expected close date."
+>
+  <Card title="Pipeline" subtitle="Top 25 by close date">
+    <RecordList
+      client:load
+      sobject="Opportunity"
+      orderBy="CloseDate"
+      orderDir="DESC"
+      columns={[
+        { label: 'Name',      field: 'Name' },
+        { label: 'Stage',     field: 'StageName', muted: true },
+        { label: 'Close',     field: 'CloseDate', muted: true },
+        { label: 'Amount',    field: 'Amount',    align: 'right', currency: true },
+      ]}
+    />
+  </Card>
+</AppLayout>

@@ -1,0 +1,36 @@
+{
+  "name": "base-astro-app",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && node scripts/postbuild.mjs",
+    "preview": "astro preview",
+    "check": "astro check",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@astrojs/react": "^4.3.0",
+    "@salesforce/sdk-data": "^1.122.1",
+    "@salesforce/ui-bundle": "^1.122.1",
+    "@tailwindcss/vite": "^4.1.17",
+    "astro": "^5.14.0",
+    "clsx": "^2.1.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tailwind-merge": "^3.5.0",
+    "tailwindcss": "^4.1.17"
+  },
+  "devDependencies": {
+    "@salesforce/vite-plugin-ui-bundle": "^1.122.1",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "~5.9.3",
+    "vitest": "^4.0.17"
+  }
+}
