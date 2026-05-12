@@ -3,7 +3,7 @@ title: Data with the SDK
 description: Fetching Salesforce records from React islands.
 ---
 
-Puebla pre-wires `@salesforce/sdk-data` so your islands can query records
+ui-bundle-astro pre-wires `@salesforce/sdk-data` so your islands can query records
 without touching the network manually.
 
 ## The shared SDK instance

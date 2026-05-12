@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://puebla.dev/sitemap-index.xml
+Sitemap: https://k-j-kim.github.io/ui-bundle-astro/sitemap-index.xml

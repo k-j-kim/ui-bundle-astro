@@ -1,4 +1,4 @@
-# Puebla
+# ui-bundle-astro
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Astro](https://img.shields.io/badge/Astro-5.x-FF5D01)](https://astro.build)
@@ -53,4 +53,4 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) and
 
 ## License
 
-[MIT](LICENSE) © Puebla contributors
+[MIT](LICENSE) © ui-bundle-astro contributors

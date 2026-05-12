@@ -1,4 +1,4 @@
-# Contributing to Puebla
+# Contributing to ui-bundle-astro
 
 Thanks for your interest in contributing! This document outlines the workflow
 for issues, pull requests, and local development.
@@ -11,8 +11,8 @@ participating, you are expected to uphold it.
 ## Getting started
 
 ```bash
-git clone https://github.com/<your-fork>/puebla.git
-cd puebla/force-app/main/default/uiBundles/BaseAstroApp
+git clone https://github.com/<your-fork>/ui-bundle-astro.git
+cd ui-bundle-astro/force-app/main/default/uiBundles/BaseAstroApp
 npm install
 npm run dev
 ```

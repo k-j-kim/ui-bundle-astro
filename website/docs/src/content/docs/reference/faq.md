@@ -1,6 +1,6 @@
 ---
 title: FAQ
-description: Common questions about Puebla.
+description: Common questions about ui-bundle-astro.
 ---
 
 ## Why Astro instead of React + Vite?
@@ -45,6 +45,6 @@ template can be a reference.
 
 ## How do I report a bug?
 
-Open an issue on [GitHub](https://github.com/k-j-kim/ui-bundle-astro/issues). Include
+Open an issue on [GitHub](https://github.com/k-j-kim/ui-bundle-astro/issues) (template) or on the [docs repo](https://github.com/k-j-kim/ui-bundle-astro-docs/issues) (documentation). Include
 your Node version, OS, and the Salesforce API version from
 `sfdx-project.json`.

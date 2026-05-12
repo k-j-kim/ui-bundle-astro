@@ -1,9 +1,9 @@
 ---
 title: Deploying
-description: Build a Puebla bundle and deploy it to a Salesforce org.
+description: Build a ui-bundle-astro bundle and deploy it to a Salesforce org.
 ---
 
-Puebla bundles deploy with the standard Salesforce CLI. There is no
+ui-bundle-astro bundles deploy with the standard Salesforce CLI. There is no
 custom deploy step.
 
 ## Build
@@ -40,7 +40,7 @@ sf project deploy start \
   --target-org my-org
 ```
 
-The `.forceignore` shipped with Puebla excludes `node_modules`,
+The `.forceignore` shipped with ui-bundle-astro excludes `node_modules`,
 `src/`, `scripts/`, and the various config files from the deploy. Only
 `dist/` and the metadata XML are sent.
 

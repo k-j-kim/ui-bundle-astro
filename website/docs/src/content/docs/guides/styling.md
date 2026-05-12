@@ -1,9 +1,9 @@
 ---
 title: Styling with Tailwind
-description: Tailwind v4 in a Puebla bundle.
+description: Tailwind v4 in a ui-bundle-astro bundle.
 ---
 
-Puebla ships with Tailwind v4 wired up via the official Vite plugin.
+ui-bundle-astro ships with Tailwind v4 wired up via the official Vite plugin.
 
 ## Entry point
 

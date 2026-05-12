@@ -17,7 +17,7 @@
   <rect width="1200" height="630" fill="url(#glow)"/>
   <g transform="translate(80,200)">
     <text font-family="Inter, sans-serif" font-weight="800" font-size="96" fill="#fff">
-      Puebla
+      ui-bundle-astro
     </text>
     <text y="120" font-family="Inter, sans-serif" font-weight="600" font-size="44" fill="url(#orange)">
       Astro template for Salesforce UI Bundles

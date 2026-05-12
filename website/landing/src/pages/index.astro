@@ -107,7 +107,7 @@ const steps = [
           </div>
 
           <div class="mt-14 w-full max-w-2xl">
-            <CodeWindow title="zsh — install puebla" code={installCode} />
+            <CodeWindow title="zsh — install ui-bundle-astro" code={installCode} />
           </div>
         </div>
       </div>
@@ -202,58 +202,6 @@ const steps = [
             </div>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- Comparison -->
-    <section class="container-x py-24">
-      <div class="max-w-2xl mb-10">
-        <span class="badge mb-4">Comparison</span>
-        <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-white">Puebla vs the React template</h2>
-        <p class="mt-3 text-[var(--color-fg-muted)] text-lg">Same UI Bundle runtime. Different defaults.</p>
-      </div>
-      <div class="overflow-x-auto rounded-2xl border border-white/[0.08]">
-        <table class="w-full text-sm">
-          <thead class="bg-white/[0.02] text-[var(--color-fg-muted)]">
-            <tr>
-              <th class="text-left font-medium py-3 px-5">&nbsp;</th>
-              <th class="text-left font-medium py-3 px-5">Puebla (Astro)</th>
-              <th class="text-left font-medium py-3 px-5">reactbasic (React + Vite)</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-white/[0.06]">
-            <tr>
-              <td class="py-3 px-5 font-medium text-white">Routing</td>
-              <td class="py-3 px-5 text-[var(--color-fg-muted)]">File-based (<code class="text-[var(--color-brand)]">src/pages</code>)</td>
-              <td class="py-3 px-5 text-[var(--color-fg-muted)]">Client-side (<code>react-router</code>)</td>
-            </tr>
-            <tr>
-              <td class="py-3 px-5 font-medium text-white">First paint</td>
-              <td class="py-3 px-5 text-[var(--color-fg-muted)]">Static HTML</td>
-              <td class="py-3 px-5 text-[var(--color-fg-muted)]">JS bundle then render</td>
-            </tr>
-            <tr>
-              <td class="py-3 px-5 font-medium text-white">JS payload</td>
-              <td class="py-3 px-5 text-[var(--color-fg-muted)]">Per-island (zero on static pages)</td>
-              <td class="py-3 px-5 text-[var(--color-fg-muted)]">Whole app bundle</td>
-            </tr>
-            <tr>
-              <td class="py-3 px-5 font-medium text-white">Interactivity</td>
-              <td class="py-3 px-5 text-[var(--color-fg-muted)]">React islands (<code class="text-[var(--color-brand)]">client:load</code>)</td>
-              <td class="py-3 px-5 text-[var(--color-fg-muted)]">Full SPA</td>
-            </tr>
-            <tr>
-              <td class="py-3 px-5 font-medium text-white">Styling</td>
-              <td class="py-3 px-5 text-[var(--color-fg-muted)]">Tailwind v4</td>
-              <td class="py-3 px-5 text-[var(--color-fg-muted)]">Bring-your-own</td>
-            </tr>
-            <tr>
-              <td class="py-3 px-5 font-medium text-white">SDK</td>
-              <td class="py-3 px-5 text-[var(--color-fg-muted)]">Pre-wired <code class="text-[var(--color-brand)]">@salesforce/sdk-data</code></td>
-              <td class="py-3 px-5 text-[var(--color-fg-muted)]">Pre-wired <code>@salesforce/sdk-data</code></td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </section>
 

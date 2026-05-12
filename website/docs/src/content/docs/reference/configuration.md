@@ -1,6 +1,6 @@
 ---
 title: Configuration
-description: Every config file in a Puebla bundle, annotated.
+description: Every config file in a ui-bundle-astro bundle, annotated.
 ---
 
 ## `ui-bundle.json`

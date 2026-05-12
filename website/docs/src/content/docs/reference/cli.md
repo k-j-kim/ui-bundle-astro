@@ -1,6 +1,6 @@
 ---
 title: CLI commands
-description: npm scripts and Salesforce CLI commands for a Puebla bundle.
+description: npm scripts and Salesforce CLI commands for a ui-bundle-astro bundle.
 ---
 
 ## npm scripts
@@ -18,7 +18,7 @@ description: npm scripts and Salesforce CLI commands for a Puebla bundle.
 ### Generate a new bundle
 
 ```sh
-sf template generate ui-bundle --name MyApp --template puebla
+sf template generate ui-bundle --name MyApp --template astro
 ```
 
 ### Deploy

@@ -1,9 +1,9 @@
-# Puebla website
+# ui-bundle-astro website
 
 Two Astro projects:
 
-- **`landing/`** — the marketing site (`https://puebla.dev`).
-- **`docs/`** — the Starlight-powered documentation (`https://puebla.dev/docs`).
+- **`landing/`** — the marketing site (`https://k-j-kim.github.io/ui-bundle-astro/`).
+- **`docs/`** — the Starlight-powered documentation (also at [ui-bundle-astro-docs](https://github.com/k-j-kim/ui-bundle-astro-docs)).
 
 Run them locally:
 

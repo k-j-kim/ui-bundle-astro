@@ -1,9 +1,9 @@
 ---
 title: Project structure
-description: A tour of every file in a Puebla bundle.
+description: A tour of every file in a ui-bundle-astro bundle.
 ---
 
-A fresh Puebla bundle looks like this:
+A fresh ui-bundle-astro bundle looks like this:
 
 ```text
 MyApp/
@@ -78,7 +78,7 @@ what the UI Bundle runtime expects.
 ### `src/pages/`
 
 Each `.astro` file becomes a route. `index.astro` is `/`, `accounts.astro`
-is `/accounts`, and so on. See [Routing](/docs/guides/routing/).
+is `/accounts`, and so on. See [Routing](/guides/routing/).
 
 ### `src/components/`
 

@@ -1,11 +1,16 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
+const isProd = process.env.GITHUB_ACTIONS === 'true';
+
 export default defineConfig({
-  site: 'https://puebla.dev',
+  site: isProd
+    ? 'https://k-j-kim.github.io'
+    : 'http://localhost:4322',
+  base: isProd ? '/ui-bundle-astro-docs/' : '/',
   integrations: [
     starlight({
-      title: 'Puebla',
+      title: 'ui-bundle-astro',
       description: 'Astro template for Salesforce UI Bundles',
       logo: {
         src: './src/assets/logo.svg',
@@ -21,7 +26,7 @@ export default defineConfig({
         },
       ],
       editLink: {
-        baseUrl: 'https://github.com/k-j-kim/ui-bundle-astro/edit/master/website/docs/',
+        baseUrl: 'https://github.com/k-j-kim/ui-bundle-astro-docs/edit/master/',
       },
       lastUpdated: true,
       pagination: true,

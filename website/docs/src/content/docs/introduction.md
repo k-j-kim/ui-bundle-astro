@@ -1,9 +1,9 @@
 ---
 title: Introduction
-description: What Puebla is, what it isn't, and why you might want to use it.
+description: What ui-bundle-astro is, what it isn't, and why you might want to use it.
 ---
 
-**Puebla** is an [Astro](https://astro.build)-based template for
+**ui-bundle-astro** is an [Astro](https://astro.build)-based template for
 Salesforce **UI Bundles**. It is a drop-in alternative to the `reactbasic`
 template shipped by `sf template generate ui-bundle`.
 
@@ -19,23 +19,23 @@ template shipped by `sf template generate ui-bundle`.
   `@salesforce/vite-plugin-ui-bundle` plugin rewrites asset URLs to the
   runtime mount path.
 
-## When to use Puebla
+## When to use ui-bundle-astro
 
-Use Puebla when you want…
+Use this template when you want…
 
 - A modern Astro DX inside a Salesforce UI Bundle.
 - Smaller payloads than the React template — pages ship as HTML.
 - File-based routing without writing your own router.
 - TypeScript-strict, Tailwind v4, and clean ESM out of the box.
 
-## When **not** to use Puebla
+## When **not** to use it
 
 If you have a heavily SPA-shaped app (deep client-side state, optimistic
 updates across routes, etc.) the React template may serve you better.
-Puebla optimizes for content-heavy or list/detail-style apps.
+This template optimizes for content-heavy or list/detail-style apps.
 
 ## What's next
 
-- [Getting started](/docs/getting-started/) — scaffold and run.
-- [Project structure](/docs/project-structure/) — what each file does.
-- [Routing](/docs/guides/routing/) — how Astro pages map to URLs.
+- [Getting started](/getting-started/) — scaffold and run.
+- [Project structure](/project-structure/) — what each file does.
+- [Routing](/guides/routing/) — how Astro pages map to URLs.

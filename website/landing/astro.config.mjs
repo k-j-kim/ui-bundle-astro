@@ -7,7 +7,7 @@ const isProd = process.env.GITHUB_ACTIONS === 'true';
 export default defineConfig({
   site: isProd
     ? 'https://k-j-kim.github.io'
-    : 'https://puebla.dev',
+    : 'http://localhost:4321',
   base: isProd ? '/ui-bundle-astro/' : '/',
   integrations: [sitemap()],
   vite: {

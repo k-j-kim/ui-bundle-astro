@@ -3,7 +3,7 @@ title: Routing
 description: How Astro's file-based pages map to UI Bundle URLs.
 ---
 
-Astro replaces `react-router` in Puebla. Every file in `src/pages/` becomes
+Astro replaces `react-router` in ui-bundle-astro. Every file in `src/pages/` becomes
 a static `.html` file at build time.
 
 ## Static routes
