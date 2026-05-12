@@ -1,6 +1,6 @@
 ---
 title: Getting started
-description: Scaffold, install, and run your first ui-bundle-astro project.
+description: Scaffold, install, and run your first project.
 ---
 
 import { Steps, Tabs, TabItem, Aside } from '@astrojs/starlight/components';
@@ -8,21 +8,20 @@ import { Steps, Tabs, TabItem, Aside } from '@astrojs/starlight/components';
 ## Prerequisites
 
 - **Node 22+**
-- **Salesforce CLI** (`sf`) authenticated to a target org
-- An SFDX project (`sfdx-project.json`)
+- **Salesforce CLI** (`sf`) — authenticated to a target org
+- An existing SFDX project (has a `sfdx-project.json`)
 
-## Scaffold a project
+## Scaffold
 
 <Steps>
 
-1. **Create the bundle from the template.**
+1. **Generate the bundle.**
 
    ```sh
-   sf template generate ui-bundle --name MyApp --template astro
+   sf template generate ui-bundle --name MyApp
    ```
 
-   This creates a new bundle at
-   `force-app/main/default/uiBundles/MyApp/`.
+   Creates `force-app/main/default/uiBundles/MyApp/`.
 
 2. **Install dependencies.**
 
@@ -37,11 +36,11 @@ import { Steps, Tabs, TabItem, Aside } from '@astrojs/starlight/components';
    npm run dev
    ```
 
-   Open `http://localhost:4321` — Astro reloads on change.
+   Open `http://localhost:4321`. Astro hot-reloads on every save.
 
 </Steps>
 
-## Build and deploy
+## Build
 
 <Tabs>
   <TabItem label="npm">
@@ -56,7 +55,15 @@ import { Steps, Tabs, TabItem, Aside } from '@astrojs/starlight/components';
   </TabItem>
 </Tabs>
 
-The build emits `dist/`. From your SFDX project root:
+This runs `astro build` then `scripts/postbuild.mjs`. The post-build step:
+
+1. Rewrites absolute `/assets/...` URLs to relative paths (required because Salesforce serves the bundle under a dynamic mount path).
+2. Externalizes inline `<script>` tags to separate `.js` files (Salesforce's strict CSP blocks inline scripts).
+3. Validates that `dist/index.html` exists for SPA fallback routing.
+
+## Deploy
+
+From your SFDX project root:
 
 ```sh
 sf project deploy start \
@@ -65,11 +72,17 @@ sf project deploy start \
 ```
 
 <Aside type="tip">
-The `scripts/postbuild.mjs` step verifies that `dist/index.html` exists so
-SPA-style deep links can fall back to it.
+Run `sf project deploy validate` first to dry-run the deployment without activating it.
 </Aside>
 
-## Next
+## What you get
 
-- [Project structure](/project-structure/) — see what each file does.
-- [React islands](/guides/islands/) — add interactivity.
+After scaffolding, the dev server shows a dashboard with:
+
+- **Dashboard** (`/`) — stat tiles and quick links
+- **Accounts** (`/accounts`) — live data table querying Account records via GraphQL
+- **Contacts** (`/contacts`) — same pattern for Contact records
+- **Opportunities** (`/opportunities`) — with currency formatting
+- **About** (`/about`) — tech stack summary
+
+All data pages use the same `RecordList` React island, configured per-page with different columns. See [React islands](/guides/islands/) for how this works.

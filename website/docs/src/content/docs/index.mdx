@@ -1,9 +1,9 @@
 ---
 title: ui-bundle-astro
-description: Astro template for Salesforce UI Bundles. Zero-JS by default. React only where you need it.
+description: Astro template for Salesforce UI Bundles.
 template: splash
 hero:
-  tagline: An Astro template for Salesforce UI Bundles. Zero-JS by default. React only where you need it.
+  tagline: An Astro template for Salesforce UI Bundles. Static HTML pages, React islands for interactivity, Tailwind v4, and the Salesforce Data SDK — all wired up.
   image:
     file: ../../assets/hero.svg
   actions:
@@ -19,28 +19,15 @@ hero:
 
 import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
 
-## Why ui-bundle-astro?
-
-<CardGrid stagger>
-  <Card title="Zero-JS by default" icon="rocket">
-    Pages render to static HTML. React only hydrates the islands that need it.
-  </Card>
-  <Card title="File-based routing" icon="seti:html">
-    `src/pages/*.astro` becomes `dist/<route>.html`. No `react-router`.
-  </Card>
-  <Card title="Salesforce-aware" icon="cloud-download">
-    `@salesforce/vite-plugin-ui-bundle` rewrites asset URLs at runtime.
-  </Card>
-  <Card title="Tailwind v4" icon="puzzle">
-    Modern styling with the latest Tailwind, plus design tokens.
-  </Card>
-</CardGrid>
-
-## Where to next?
+## Docs
 
 <CardGrid>
-  <LinkCard title="Getting started" href="/getting-started/" description="Scaffold a new project in under a minute." />
-  <LinkCard title="Project structure" href="/project-structure/" description="Understand what each file does." />
-  <LinkCard title="React islands" href="/guides/islands/" description="Hydrate only what needs to be interactive." />
-  <LinkCard title="Deploying" href="/guides/deploying/" description="Ship your bundle to a Salesforce org." />
+  <LinkCard title="Getting started" href="/getting-started/" description="Scaffold a project, install, run the dev server." />
+  <LinkCard title="Project structure" href="/project-structure/" description="What every file does." />
+  <LinkCard title="Pages & routing" href="/guides/routing/" description="File-based routing and navigation." />
+  <LinkCard title="React islands" href="/guides/islands/" description="Add interactivity with client:load." />
+  <LinkCard title="Querying data" href="/guides/data/" description="Use the Salesforce Data SDK from React." />
+  <LinkCard title="Styling" href="/guides/styling/" description="Tailwind v4 setup and theme tokens." />
+  <LinkCard title="Deploying" href="/guides/deploying/" description="Build and deploy to a Salesforce org." />
+  <LinkCard title="Configuration reference" href="/reference/configuration/" description="Every config file, annotated." />
 </CardGrid>

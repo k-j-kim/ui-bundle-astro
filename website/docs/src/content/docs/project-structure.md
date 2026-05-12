@@ -1,44 +1,77 @@
 ---
 title: Project structure
-description: A tour of every file in a ui-bundle-astro bundle.
+description: Every file in a scaffolded project, explained.
 ---
-
-A fresh ui-bundle-astro bundle looks like this:
 
 ```text
 MyApp/
-├── ui-bundle.json                    # UI Bundle config (outputDir, fallback)
-├── MyApp.uibundle-meta.xml           # Salesforce metadata (label, version)
-├── astro.config.mjs                  # Astro + integrations
-├── tsconfig.json
+├── astro.config.mjs          # Astro + React + Tailwind + Salesforce plugin
+├── env.d.ts                  # Type declarations for SFDC_ENV
 ├── package.json
-├── env.d.ts
+├── tsconfig.json
+├── ui-bundle.json            # Salesforce UI Bundle config
+├── MyApp.uibundle-meta.xml   # Salesforce metadata
 ├── scripts/
-│   └── postbuild.mjs                 # Verifies dist/index.html exists
+│   └── postbuild.mjs         # URL rewriting + CSP compliance
 └── src/
-    ├── pages/                        # File-based routes
-    │   ├── index.astro
+    ├── pages/                # File-based routes → one .html per page
+    │   ├── index.astro       # Dashboard
     │   ├── accounts.astro
+    │   ├── contacts.astro
+    │   ├── opportunities.astro
+    │   ├── about.astro
     │   └── 404.astro
-    ├── components/
-    │   ├── Card.astro                # Static (zero-JS)
-    │   ├── NavBar.astro
-    │   └── RecordList.tsx            # React island
     ├── layouts/
-    │   └── AppLayout.astro
+    │   └── AppLayout.astro   # Shared HTML shell, nav, footer
+    ├── components/
+    │   ├── NavBar.astro      # Sticky header with active-link detection
+    │   ├── Card.astro        # Container with title/subtitle
+    │   ├── StatTile.astro    # Metric display with trend indicator
+    │   └── RecordList.tsx    # React island — data table via GraphQL
     ├── lib/
-    │   ├── sdk.ts                    # Shared createDataSDK() instance
-    │   └── utils.ts                  # cn(), withBase()
+    │   ├── sdk.ts            # Shared DataSDK instance + runQuery()
+    │   └── utils.ts          # cn(), withBase(), getBasePath()
     └── styles/
-        └── global.css                # Tailwind entry
+        └── global.css        # Tailwind entry + design tokens
 ```
 
 ## Config files
 
-### `ui-bundle.json`
+### `astro.config.mjs`
 
-Tells the UI Bundle runtime where the build output lives and how to
-handle deep-link fallback.
+```js
+import { defineConfig } from 'astro/config';
+import react from '@astrojs/react';
+import tailwindcss from '@tailwindcss/vite';
+import salesforce from '@salesforce/vite-plugin-ui-bundle';
+
+export default defineConfig({
+  output: 'static',
+  outDir: './dist',
+  build: { format: 'file', assets: 'assets' },
+  trailingSlash: 'never',
+  integrations: [react()],
+  vite: {
+    plugins: [tailwindcss(), salesforce()],
+    resolve: {
+      alias: {
+        '@components': './src/components',
+        '@layouts':    './src/layouts',
+        '@lib':        './src/lib',
+        '@styles':     './src/styles',
+      },
+    },
+  },
+});
+```
+
+Key settings:
+
+- **`format: 'file'`** — emits `dist/accounts.html` instead of `dist/accounts/index.html`. The UI Bundle runtime expects this; directory-style URLs fall through to the SPA fallback and render the wrong page.
+- **`trailingSlash: 'never'`** — matches `ui-bundle.json`.
+- **`salesforce()`** — rewrites `/assets/...` URLs to the runtime mount path.
+
+### `ui-bundle.json`
 
 ```json
 {
@@ -48,66 +81,46 @@ handle deep-link fallback.
 }
 ```
 
-### `MyApp.uibundle-meta.xml`
+- `outputDir` — where the build output lives.
+- `spaFallback` — Salesforce serves this for any unmatched path (deep-link support).
+- `trailingSlash` — must match `astro.config.mjs`.
 
-Standard Salesforce metadata. Controls the label, API version, and
-active flag.
+### `env.d.ts`
 
-### `astro.config.mjs`
-
-Configures Astro with `output: 'static'`, the React integration,
-Tailwind, and the Salesforce Vite plugin.
-
-```js
-export default defineConfig({
-  output: 'static',
-  outDir: './dist',
-  build: { format: 'file', assets: 'assets' },
-  trailingSlash: 'never',
-  integrations: [react()],
-  vite: { plugins: [tailwindcss(), salesforce()] },
-});
+```ts
+declare global {
+  interface SfdcEnv {
+    basePath?: string;
+  }
+  var SFDC_ENV: SfdcEnv | undefined;
+}
+export {};
 ```
 
-The `format: 'file'` flag is important — it produces
-`dist/accounts.html` rather than `dist/accounts/index.html`, which is
-what the UI Bundle runtime expects.
+The Salesforce runtime injects `globalThis.SFDC_ENV.basePath` before your JS runs. This is the mount path (e.g. `/lwr/application/ai/c-MyApp`). The `withBase()` helper in `src/lib/utils.ts` uses it.
 
-## Source layout
+### `scripts/postbuild.mjs`
+
+Runs after `astro build`. Handles three things:
+
+1. **URL rewriting** — converts absolute `/assets/...` and `/contacts` references to relative paths (`./assets/...`, `./contacts`), because the bundle is served under a dynamic mount path.
+2. **Script externalization** — moves inline `<script>` content to separate `.js` files. Salesforce's CSP blocks inline scripts.
+3. **Fallback validation** — checks that `dist/index.html` exists so SPA-style deep links work.
+
+## Source code
 
 ### `src/pages/`
 
-Each `.astro` file becomes a route. `index.astro` is `/`, `accounts.astro`
-is `/accounts`, and so on. See [Routing](/guides/routing/).
+Each `.astro` file becomes a route. `index.astro` → `/`, `accounts.astro` → `/accounts`. See [Routing](/guides/routing/).
 
 ### `src/components/`
 
-Mix `.astro` (zero-JS, server-rendered) and `.tsx` (React island)
-components freely. The bundler only ships JS for islands.
+Mix `.astro` (zero-JS, server-rendered) and `.tsx` (React island) components. The bundler only ships JS for islands. See [React islands](/guides/islands/).
 
 ### `src/lib/`
 
-Shared utilities. `sdk.ts` exports a singleton `createDataSDK()` used by
-React islands. `utils.ts` contains `cn()` and `withBase()` helpers.
+Shared utilities. `sdk.ts` exports the DataSDK instance. `utils.ts` has `cn()` for class merging and `withBase()` for links. See [Querying data](/guides/data/).
 
 ### `src/styles/global.css`
 
-Tailwind v4 entry point. Imported once from `AppLayout.astro`.
-
-## Build artifacts
-
-After `npm run build`:
-
-```text
-dist/
-├── index.html
-├── accounts.html
-├── 404.html
-└── assets/
-    ├── *.js
-    └── *.css
-```
-
-The `@salesforce/vite-plugin-ui-bundle` plugin rewrites `/assets/...`
-URLs at runtime to the dynamic mount path Salesforce serves the bundle
-under.
+Tailwind v4 entry with custom design tokens. Imported once from `AppLayout.astro`. See [Styling](/guides/styling/).

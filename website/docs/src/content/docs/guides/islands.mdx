@@ -1,69 +1,197 @@
 ---
 title: React islands
-description: Hydrate only the components that need to be interactive.
+description: Adding interactive React components that hydrate independently.
 ---
 
 import { Aside } from '@astrojs/starlight/components';
 
-Astro renders pages to static HTML by default. To opt a component into
-client-side hydration, import it as an island and use a `client:*`
-directive.
+Most of the template is static Astro components (zero JS). When you need interactivity — search, filtering, live data — you use a React island.
 
-## When to use an island
+## How it works
 
-- The component reads or mutates data via the Salesforce SDK
-- The component manages local state (forms, dropdowns, charts, etc.)
-- The component listens to user events
-
-If a component is purely presentational, write it as a `.astro`
-component instead — it ships no JS at all.
-
-## Hydration directives
-
-| Directive          | When it hydrates                                      |
-| ------------------ | ----------------------------------------------------- |
-| `client:load`      | As soon as the page loads                             |
-| `client:idle`      | When the browser is idle                              |
-| `client:visible`   | When the component scrolls into view                  |
-| `client:media={…}` | When a media query matches                            |
-| `client:only="react"` | Skip SSR; only render on the client                |
-
-## Example: a list backed by the SDK
+Write a React component in a `.tsx` file, import it in an `.astro` page, and add a `client:*` directive to hydrate it in the browser:
 
 ```astro
 ---
 // src/pages/accounts.astro
 import AppLayout from '@layouts/AppLayout.astro';
-import RecordList from '@components/RecordList';
+import Card from '@components/Card.astro';
+import RecordList from '@components/RecordList.tsx';
 ---
-<AppLayout title="Accounts">
-  <RecordList sobject="Account" client:load />
+<AppLayout title="Accounts" eyebrow="Sales" heading="Accounts">
+  <Card title="All accounts" subtitle="Ordered by name">
+    <RecordList
+      client:load
+      sobject="Account"
+      columns={[
+        { label: 'Name',     field: 'Name' },
+        { label: 'Industry', field: 'Industry', muted: true },
+        { label: 'Type',     field: 'Type',     muted: true },
+        { label: 'Phone',    field: 'Phone',    muted: true, align: 'right' },
+      ]}
+    />
+  </Card>
 </AppLayout>
 ```
 
+Without `client:load`, the component renders to static HTML at build time and never hydrates. With it, Astro ships the React runtime and component JS only for that island.
+
+## Hydration directives
+
+| Directive | When it hydrates |
+|---|---|
+| `client:load` | Immediately on page load |
+| `client:idle` | After the page is idle (`requestIdleCallback`) |
+| `client:visible` | When the element enters the viewport |
+| `client:media="(max-width: 768px)"` | When a media query matches |
+| `client:only="react"` | Client-only, no SSR — skips build-time rendering |
+
+Use `client:load` for above-the-fold interactive content. Use `client:visible` for components further down the page to defer JS loading.
+
+## Example: `RecordList` component
+
+This is the main React island in the template. It queries Salesforce records via the UI API GraphQL endpoint and renders a searchable table:
+
 ```tsx
 // src/components/RecordList.tsx
-import { useEffect, useState } from 'react';
-import { sdk } from '@lib/sdk';
+import { useEffect, useMemo, useState } from 'react';
+import { runQuery } from '@lib/sdk';
 
-export default function RecordList({ sobject }: { sobject: string }) {
-  const [records, setRecords] = useState<unknown[]>([]);
+export interface RecordListColumn {
+  label: string;
+  field: string;
+  align?: 'left' | 'right';
+  currency?: boolean;
+  muted?: boolean;
+}
+
+export interface RecordListProps {
+  sobject: string;
+  columns: RecordListColumn[];
+  orderBy?: string;
+  orderDir?: 'ASC' | 'DESC';
+  first?: number;
+}
+
+export default function RecordList({
+  sobject,
+  columns,
+  orderBy = 'Name',
+  orderDir = 'ASC',
+  first = 25,
+}: RecordListProps) {
+  const [rows, setRows] = useState<any[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [query, setQuery] = useState('');
+
+  // Build GraphQL query from column spec
+  const gql = useMemo(() => {
+    const fields = columns.map(c => `${c.field} { value }`).join(' ');
+    return `
+      query ${sobject}List {
+        uiapi {
+          query {
+            ${sobject}(
+              first: ${first},
+              orderBy: { ${orderBy}: { order: ${orderDir} } }
+            ) {
+              edges { node { Id ${fields} } }
+            }
+          }
+        }
+      }
+    `;
+  }, [sobject, columns, orderBy, orderDir, first]);
+
   useEffect(() => {
-    sdk.query(`SELECT Id, Name FROM ${sobject} LIMIT 50`).then(setRecords);
-  }, [sobject]);
-  return <ul>{records.map(...)}</ul>;
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await runQuery(gql);
+        if (cancelled) return;
+        const edges = res?.data?.uiapi?.query?.[sobject]?.edges ?? [];
+        setRows(edges.map((e: any) => {
+          const node = e.node;
+          const out: any = { Id: node.Id };
+          for (const c of columns)
+            out[c.field] = node?.[c.field]?.value ?? null;
+          return out;
+        }));
+      } catch (e: any) {
+        if (!cancelled) setError(e?.message ?? String(e));
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [gql]);
+
+  // ... render table with search filtering
 }
 ```
 
+The key pattern: the GraphQL query is built dynamically from the `columns` prop, so the same component powers Accounts, Contacts, and Opportunities with zero code duplication.
+
+## Reusing `RecordList` for different objects
+
+Each page passes different props:
+
+```astro
+// src/pages/contacts.astro — Contact records
+<RecordList
+  client:load
+  sobject="Contact"
+  columns={[
+    { label: 'Name',  field: 'Name' },
+    { label: 'Title', field: 'Title', muted: true },
+    { label: 'Email', field: 'Email', muted: true },
+    { label: 'Phone', field: 'Phone', muted: true },
+  ]}
+  orderBy="LastName"
+/>
+```
+
+```astro
+// src/pages/opportunities.astro — with currency formatting
+<RecordList
+  client:load
+  sobject="Opportunity"
+  columns={[
+    { label: 'Name',   field: 'Name' },
+    { label: 'Stage',  field: 'StageName', muted: true },
+    { label: 'Close',  field: 'CloseDate', muted: true },
+    { label: 'Amount', field: 'Amount', align: 'right', currency: true },
+  ]}
+  orderBy="CloseDate"
+  orderDir="DESC"
+/>
+```
+
 <Aside type="tip">
-The bundler ships JS only for components that have a `client:*`
-directive somewhere in your project. Other components are pure HTML.
+The `currency: true` column option formats numbers as USD. Extend `formatValue()` in `RecordList.tsx` to support other currencies.
 </Aside>
 
-## Avoiding hydration thrash
+## Writing your own island
 
-- Prefer `client:idle` or `client:visible` for below-the-fold content.
-- Don't pass large props from `.astro` to React — they get serialized
-  into the HTML. Fetch data inside the island instead.
-- Co-locate state in one island where possible — siblings can't share
-  React context across islands without a top-level provider.
+Any `.tsx` file with a default export works:
+
+```tsx
+// src/components/Counter.tsx
+import { useState } from 'react';
+
+export default function Counter() {
+  const [count, setCount] = useState(0);
+  return (
+    <button onClick={() => setCount(c => c + 1)}>
+      Clicked {count} times
+    </button>
+  );
+}
+```
+
+```astro
+---
+import Counter from '@components/Counter.tsx';
+---
+<Counter client:load />
+```
+
+Without `client:load`, `Counter` renders its initial state as static HTML and never becomes interactive.
