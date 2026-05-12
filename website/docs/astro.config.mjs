@@ -17,11 +17,11 @@ export default defineConfig({
         {
           icon: 'github',
           label: 'GitHub',
-          href: 'https://github.com/puebla/puebla',
+          href: 'https://github.com/k-j-kim/ui-bundle-astro',
         },
       ],
       editLink: {
-        baseUrl: 'https://github.com/puebla/puebla/edit/master/website/docs/',
+        baseUrl: 'https://github.com/k-j-kim/ui-bundle-astro/edit/master/website/docs/',
       },
       lastUpdated: true,
       pagination: true,

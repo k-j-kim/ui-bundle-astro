@@ -4,7 +4,7 @@ interface Props {
 }
 const { size = 28 } = Astro.props;
 ---
-<a href="/" class="inline-flex items-center gap-2 group" aria-label="Puebla home">
+<a href={import.meta.env.BASE_URL} class="inline-flex items-center gap-2 group" aria-label="Puebla home">
   <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden="true">
     <defs>
       <linearGradient id="logo-g" x1="0" y1="0" x2="1" y2="1">

@@ -45,6 +45,6 @@ template can be a reference.
 
 ## How do I report a bug?
 
-Open an issue on [GitHub](https://github.com/puebla/puebla/issues). Include
+Open an issue on [GitHub](https://github.com/k-j-kim/ui-bundle-astro/issues). Include
 your Node version, OS, and the Salesforce API version from
 `sfdx-project.json`.
