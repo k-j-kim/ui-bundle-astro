@@ -42,9 +42,9 @@ sf project deploy start \
 
 ## Documentation
 
-- 🌐 **Landing page**: `website/landing/`
-- 📖 **Docs**: `website/docs/`
-- 🧩 **Template README**: [BaseAstroApp/README.md](force-app/main/default/uiBundles/BaseAstroApp/README.md)
+- **Landing page**: https://k-j-kim.github.io/ui-bundle-astro/
+- **Docs site**: https://k-j-kim.github.io/ui-bundle-astro-docs/ ([repo](https://github.com/k-j-kim/ui-bundle-astro-docs))
+- **Template README**: [BaseAstroApp/README.md](force-app/main/default/uiBundles/BaseAstroApp/README.md)
 
 ## Contributing
 
